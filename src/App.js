@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LandingScreen from './screens/LandingScreen';
+import PasswordScreen from './screens/PasswordScreen';
+import GiftScreen from './screens/GiftScreen';
+import SurprizeScreen from './screens/SurprizeScreen';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingScreen />} />
+        <Route path="/game" element={<PasswordScreen />} />
+        <Route path="/gift" element={<GiftScreen />} />
+        <Route path="/surprize" element={<SurprizeScreen />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

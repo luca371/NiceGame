@@ -1,0 +1,153 @@
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #e91e63;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.hearts-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heart {
+  position: absolute;
+  font-size: 2rem;
+  animation: float 6s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+.title {
+  font-size: clamp(2.5rem, 10vw, 5rem);
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
+  z-index: 1;
+  text-align: center;
+}
+
+.welcome-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideUp 0.5s ease-out;
+  z-index: 1;
+  width: 100%;
+  max-width: 500px;
+  padding: 0 20px;
+}
+
+.welcome-text {
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  margin-bottom: 2rem;
+  color: #c2185b;
+  text-align: center;
+}
+
+.start-button {
+  padding: 15px 60px;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4);
+  transition: transform 0.2s ease;
+  width: 100%;
+  max-width: 250px;
+}
+
+.start-button:hover {
+  transform: scale(1.05);
+}
+
+.start-button:active {
+  transform: scale(0.98);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .landing-container {
+    padding: 15px;
+  }
+
+  .title {
+    margin-bottom: 1.5rem;
+  }
+
+  .welcome-text {
+    margin-bottom: 1.5rem;
+  }
+
+  .start-button {
+    padding: 12px 50px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .landing-container {
+    padding: 10px;
+  }
+
+  .title {
+    margin-bottom: 1rem;
+  }
+
+  .welcome-section {
+    padding: 0 15px;
+  }
+
+  .welcome-text {
+    margin-bottom: 1.5rem;
+  }
+
+  .start-button {
+    padding: 12px 40px;
+    max-width: 200px;
+  }
+
+  .heart {
+    font-size: 1.5rem;
+  }
+}
