@@ -1,15 +1,13 @@
 {
   "files": {
     "main.css": "/NiceGame/static/css/main.ac5b7f3e.css",
-    "main.js": "/NiceGame/static/js/main.dde61540.js",
-    "static/js/453.3de74953.chunk.js": "/NiceGame/static/js/453.3de74953.chunk.js",
+    "main.js": "/NiceGame/static/js/main.c4d17432.js",
     "index.html": "/NiceGame/index.html",
     "main.ac5b7f3e.css.map": "/NiceGame/static/css/main.ac5b7f3e.css.map",
-    "main.dde61540.js.map": "/NiceGame/static/js/main.dde61540.js.map",
-    "453.3de74953.chunk.js.map": "/NiceGame/static/js/453.3de74953.chunk.js.map"
+    "main.c4d17432.js.map": "/NiceGame/static/js/main.c4d17432.js.map"
   },
   "entrypoints": [
     "static/css/main.ac5b7f3e.css",
-    "static/js/main.dde61540.js"
+    "static/js/main.c4d17432.js"
   ]
 }
