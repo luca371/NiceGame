@@ -5,49 +5,51 @@ import './PasswordScreen.css';
 function PasswordScreen() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [rules, setRules] = useState([
-    // First 15 rules
-    { id: 1, text: 'Parola trebuie să conțină 7 litere', check: (p) => (p.match(/[a-zA-Z]/g) || []).length >= 7, passed: false },
-    { id: 2, text: 'Parola trebuie să conțină 3 caractere speciale (!@. etc)', check: (p) => (p.match(/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\\/`~;']/g) || []).length >= 3, passed: false },
-    { id: 3, text: 'Parola trebuie să conțină 4 numere', check: (p) => (p.match(/[0-9]/g) || []).length >= 4, passed: false },
+  
+  const basePath = process.env.PUBLIC_URL || '';
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const ruleChecks = [
+    { id: 1, text: 'Parola trebuie să conțină 7 litere', check: (p) => (p.match(/[a-zA-Z]/g) || []).length >= 7 },
+    { id: 2, text: 'Parola trebuie să conțină 3 caractere speciale (!@. etc)', check: (p) => (p.match(/[!@#$%^&*(),.?":{}|<>_\-+=[\]\\/`~;']/g) || []).length >= 3 },
+    { id: 3, text: 'Parola trebuie să conțină 4 numere', check: (p) => (p.match(/[0-9]/g) || []).length >= 4 },
     { id: 4, text: 'Adunarea numerelor trebuie să fie egală cu 16', check: (p) => {
       const nums = p.match(/[0-9]/g) || [];
       const sum = nums.reduce((acc, n) => acc + parseInt(n), 0);
       return sum === 16;
-    }, passed: false },
+    }},
     { id: 5, text: 'Parola trebuie să conțină 3 numere romane', check: (p) => {
       const romanNumerals = p.match(/[IVXLCDM]/g) || [];
       return romanNumerals.length >= 3;
-    }, passed: false },
-    { id: 6, text: 'Parola trebuie să conțină locul unde ne-am întâlnit prima dată', check: (p) => p.includes('NoapteaMuzeelor'), passed: false },
-    { id: 7, text: 'Parola trebuie să conțină numărul de țări străine în care am fost împreună', check: (p) => p.includes('10'), passed: false },
-    { id: 8, text: 'Parola trebuie să conțină data primului date', check: (p) => p.toLowerCase().includes('1octombrie') || p.toLowerCase().includes('1 octombrie'), passed: false },
-    { id: 9, text: 'Parola trebuie să conțină faza lunii de la aniversarea noastră de anul trecut', check: (p) => p.includes('🌔'), passed: false },
-    { id: 10, text: 'Parola trebuie să conțină cea mai bună mâncare din lume', check: (p) => p.toLowerCase().includes('pizza'), passed: false },
-    { id: 11, text: 'Parola trebuie să conțină numele noastre invers', check: (p) => p.includes('AixelaAcul'), passed: false },
-    { id: 12, text: 'Parola trebuie să conțină cea mai nouă poreclă a ta', check: (p) => p.includes('Chips'), passed: false },
-    { id: 13, text: 'Parola trebuie să conțină parola', check: (p) => p.includes('ChipsLanDeMexicanChipsLanDeMexicanTupiChips'), passed: false },
-    { id: 14, text: 'Parola trebuie să conțină numele acestui filozof', check: (p) => p.includes('Biju'), passed: false, hasImage: true, imageSrc: '/biju.jpg' },
-    { id: 15, text: 'Parola trebuie să conțină cele mai frumoase cuvinte', check: (p) => p.toLowerCase().includes('te iubesc') || p.toLowerCase().includes('teiubesc'), passed: false },
-    
-    // New 15 rules
-    { id: 16, text: 'Parola trebuie să conțină numele apei care trece prin Vienna', check: (p) => p.toLowerCase().includes('dunarea') || p.toLowerCase().includes('dunărea'), passed: false },
-    { id: 17, text: 'Parola trebuie să conțină capitala Luxemburgului', check: (p) => p.toLowerCase().includes('luxemburg'), passed: false },
-    { id: 18, text: 'Parola trebuie să conțină Da sau Nu în funcție dacă jucătorul din imagine se poate etala sau nu', check: (p) => p.includes('Nu'), passed: false, hasImage: true, imageSrc: '/player.jpg' },
-    { id: 19, text: 'Parola trebuie să conțină numele de artist al băiatului care cântă melodia', check: (p) => p.includes('Minune'), passed: false, hasYoutube: true, youtubeId: 'R_S3q2tJNJI' },
-    { id: 20, text: 'Parola trebuie să conțină numele personajelor preferate din Friends', check: (p) => p.toLowerCase().includes('monica') && p.toLowerCase().includes('chandler'), passed: false },
-    { id: 21, text: 'Parola trebuie să conțină cea mai bună mișcare de dans 🦀', check: (p) => p.toLowerCase().includes('crabu'), passed: false },
-    { id: 22, text: 'Parola trebuie să conțină numele personajelor faimoase cu melodia asta', check: (p) => p.includes('RossRachel'), passed: false, hasYoutube: true, youtubeId: 'ujNeHIo7oTE' },
-    { id: 23, text: 'Parola trebuie să conțină actorul tău preferat', check: (p) => p.toLowerCase().includes('ian somerhalder') || p.toLowerCase().includes('iansomerhalder'), passed: false },
-    { id: 24, text: 'Parola trebuie să conțină parola îmbrățișării', check: (p) => p.includes('Sexy'), passed: false },
-    { id: 25, text: 'Parola trebuie să conțină meseria reală a doamnei mamăie', check: (p) => p.toLowerCase().includes('interlop'), passed: false },
-    { id: 26, text: 'Parola trebuie să conțină un Da sau Nu dacă ești ofticoasă', check: (p) => p.includes('Da'), passed: false },
-    { id: 27, text: 'Parola trebuie să conțină numele melodiei', check: (p) => p.toLowerCase().includes('clocks'), passed: false, hasAudio: true, audioSrc: '/nice.mp3' },
-    { id: 28, text: 'Parola trebuie să conțină parola pupicului', check: (p) => p.includes('Laneee'), passed: false },
-    { id: 29, text: 'Parola trebuie să conțină numele unui animaluț care e neglijat și știi foarte bine', check: (p) => p.includes('Keperplatz'), passed: false },
-    { id: 30, text: 'Parola trebuie să conțină numele tău și al meu', check: (p) => p.includes('AlexiaLuca'), passed: false },
-  ]);
+    }},
+    { id: 6, text: 'Parola trebuie să conțină locul unde ne-am întâlnit prima dată', check: (p) => p.includes('NoapteaMuzeelor') },
+    { id: 7, text: 'Parola trebuie să conțină numărul de țări străine în care am fost împreună', check: (p) => p.includes('10') },
+    { id: 8, text: 'Parola trebuie să conțină data primului date', check: (p) => p.toLowerCase().includes('1octombrie') || p.toLowerCase().includes('1 octombrie') },
+    { id: 9, text: 'Parola trebuie să conțină faza lunii de la aniversarea noastră de anul trecut', check: (p) => p.includes('🌔') },
+    { id: 10, text: 'Parola trebuie să conțină cea mai bună mâncare din lume', check: (p) => p.toLowerCase().includes('pizza') },
+    { id: 11, text: 'Parola trebuie să conțină numele noastre invers', check: (p) => p.includes('AixelaAcul') },
+    { id: 12, text: 'Parola trebuie să conțină cea mai nouă poreclă a ta', check: (p) => p.includes('Chips') },
+    { id: 13, text: 'Parola trebuie să conțină parola', check: (p) => p.includes('ChipsLanDeMexicanChipsLanDeMexicanTupiChips') },
+    { id: 14, text: 'Parola trebuie să conțină numele acestui filozof', check: (p) => p.includes('Biju'), hasImage: true, imageSrc: basePath + '/biju.jpg' },
+    { id: 15, text: 'Parola trebuie să conțină cele mai frumoase cuvinte', check: (p) => p.toLowerCase().includes('te iubesc') || p.toLowerCase().includes('teiubesc') },
+    { id: 16, text: 'Parola trebuie să conțină numele apei care trece prin Vienna', check: (p) => p.toLowerCase().includes('dunarea') || p.toLowerCase().includes('dunărea') },
+    { id: 17, text: 'Parola trebuie să conțină capitala Luxemburgului', check: (p) => p.toLowerCase().includes('luxemburg') },
+    { id: 18, text: 'Parola trebuie să conțină Da sau Nu în funcție dacă jucătorul din imagine se poate etala sau nu', check: (p) => p.includes('Nu'), hasImage: true, imageSrc: basePath + '/player.jpg' },
+    { id: 19, text: 'Parola trebuie să conțină numele de artist al băiatului care cântă melodia', check: (p) => p.includes('Minune'), hasYoutube: true, youtubeId: 'R_S3q2tJNJI' },
+    { id: 20, text: 'Parola trebuie să conțină numele personajelor preferate din Friends', check: (p) => p.toLowerCase().includes('monica') && p.toLowerCase().includes('chandler') },
+    { id: 21, text: 'Parola trebuie să conțină cea mai bună mișcare de dans 🦀', check: (p) => p.toLowerCase().includes('crabu') },
+    { id: 22, text: 'Parola trebuie să conțină numele personajelor faimoase cu melodia asta', check: (p) => p.includes('RossRachel'), hasYoutube: true, youtubeId: 'ujNeHIo7oTE' },
+    { id: 23, text: 'Parola trebuie să conțină actorul tău preferat', check: (p) => p.toLowerCase().includes('ian somerhalder') || p.toLowerCase().includes('iansomerhalder') },
+    { id: 24, text: 'Parola trebuie să conțină parola îmbrățișării', check: (p) => p.includes('Sexy') },
+    { id: 25, text: 'Parola trebuie să conțină meseria reală a doamnei mamăie', check: (p) => p.toLowerCase().includes('interlop') },
+    { id: 26, text: 'Parola trebuie să conțină un Da sau Nu dacă ești ofticoasă', check: (p) => p.includes('Da') },
+    { id: 27, text: 'Parola trebuie să conțină numele melodiei', check: (p) => p.toLowerCase().includes('clocks'), hasAudio: true, audioSrc: basePath + '/nice.mp3' },
+    { id: 28, text: 'Parola trebuie să conțină parola pupicului', check: (p) => p.includes('Laneee') },
+    { id: 29, text: 'Parola trebuie să conțină numele unui animaluț care e neglijat și știi foarte bine', check: (p) => p.includes('Keperplatz') },
+    { id: 30, text: 'Parola trebuie să conțină numele tău și al meu', check: (p) => p.includes('AlexiaLuca') },
+  ];
 
+  const [rules, setRules] = useState(ruleChecks.map(r => ({ ...r, passed: false })));
   const [allPassed, setAllPassed] = useState(false);
   const [unlockedRules, setUnlockedRules] = useState([1]);
 
@@ -75,6 +77,7 @@ function PasswordScreen() {
 
     const allRulesPassed = updatedRules.every(rule => rule.passed);
     setAllPassed(allRulesPassed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [password]);
 
   const visibleRules = useMemo(() => {
@@ -160,8 +163,8 @@ function PasswordScreen() {
 
       {allPassed && (
         <div className="success-container">
-          <h2 className="success-title">Bineeeeeeeee Laneeeeeeee!</h2>
-          <p className="success-text">Ai ghicit parola chips!</p>
+          <h2 className="success-title">Felicitări chips!</h2>
+          <p className="success-text">Ai ghicit parola suflet!</p>
           <button className="gift-button" onClick={() => navigate('/gift')}>Vezi Cadoul</button>
         </div>
       )}
